@@ -1,0 +1,19 @@
+# Kiwi TCMS MCP server configuration.
+# Copy to config.yaml and fill in your values.
+# Any field can be overridden via env vars: KIWI_URL, KIWI_USERNAME, etc.
+
+url: https://tcms.example.com
+username: your-user
+password: your-password
+
+# Request timeout
+timeout: 30s
+
+# Log level: debug, info, warn, error
+log_level: info
+
+# Extra HTTP headers sent on every request (useful for Cloudflare Access etc.)
+# Can also be set via env: KIWI_HEADERS="CF-Access-Client-Id=xxx,CF-Access-Client-Secret=yyy"
+headers:
+  CF-Access-Client-Id: ""
+  CF-Access-Client-Secret: ""

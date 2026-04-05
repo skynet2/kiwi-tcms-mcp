@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: 'stable'
+          cache: true
+      - uses: golangci/golangci-lint-action@v7
+        with:
+          version: v2.1
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: 'stable'
+          cache: true
+      - name: Download deps
+        run: go mod download
+      - name: Verify generated mocks up-to-date
+        run: |
+          go install github.com/golang/mock/mockgen@latest
+          go generate ./...
+          git diff --exit-code
+      - name: Test
+        run: make test
+      - name: Build
+        run: make build
+      - name: Vet
+        run: go vet ./...
