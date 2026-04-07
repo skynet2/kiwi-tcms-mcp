@@ -34,7 +34,11 @@ go.work.sum
 # Internal docs/plans
 docs/plans/
 
+# Generated mocks
+**/mocks/
+
 # Build output and local config
 /bin/
+/dist/
 config.yaml
 *.local.yaml

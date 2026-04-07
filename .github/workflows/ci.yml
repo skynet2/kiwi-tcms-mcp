@@ -19,9 +19,13 @@ jobs:
         with:
           go-version: 'stable'
           cache: true
+      - name: Generate mocks
+        run: |
+          go install github.com/golang/mock/mockgen@latest
+          go generate ./...
       - uses: golangci/golangci-lint-action@v7
         with:
-          version: v2.1
+          version: latest
 
   test:
     name: Test
@@ -32,13 +36,10 @@ jobs:
         with:
           go-version: 'stable'
           cache: true
-      - name: Download deps
-        run: go mod download
-      - name: Verify generated mocks up-to-date
+      - name: Generate mocks
         run: |
           go install github.com/golang/mock/mockgen@latest
           go generate ./...
-          git diff --exit-code
       - name: Test
         run: make test
       - name: Build
